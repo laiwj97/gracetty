@@ -6,28 +6,82 @@
         body {
             text-align: center;
             font-family: Arial, sans-serif;
-            background-color: #fff0f5;
-            margin-top: 100px;
+            background: #fff0f5;
+            overflow: hidden;
         }
 
         h1 {
+            margin-top: 80px;
             font-size: 3em;
             color: #ff1493;
         }
 
         img {
-            width: 300px;
+            width: 400px;
             margin-top: 30px;
             border-radius: 20px;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
         }
     </style>
 </head>
 <body>
 
-    <h1>YAYYY!!! 🎉🎉🎉</h1>
-    <h2>Grace is officially my Valentine 😻💖</h2>
+<h1>YAYYYYY!!! 🎉🎉🎉</h1>
+<h2>Grace is officially my Valentine 😻💖</h2>
 
-    <img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" alt="Celebrating Cat">
+<img src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" alt="Celebrating Cat">
+
+<canvas id="confetti"></canvas>
+
+<script>
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const confetti = [];
+
+    for (let i = 0; i < 150; i++) {
+        confetti.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 6 + 4,
+            d: Math.random() * 150,
+            color: "hsl(" + Math.random() * 360 + ",100%,50%)",
+            tilt: Math.floor(Math.random() * 10) - 10
+        });
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        confetti.forEach(c => {
+            ctx.beginPath();
+            ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+            ctx.fillStyle = c.color;
+            ctx.fill();
+        });
+
+        update();
+    }
+
+    function update() {
+        confetti.forEach(c => {
+            c.y += 2;
+            if (c.y > canvas.height) {
+                c.y = 0;
+            }
+        });
+    }
+
+    setInterval(draw, 20);
+</script>
 
 </body>
 </html>
+
