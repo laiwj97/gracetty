@@ -4,15 +4,17 @@
     <title>Be My Valentine?</title>
     <style>
         body {
+            margin: 0;
+            overflow: hidden;
             text-align: center;
             font-family: Arial, sans-serif;
-            background-color: #ffe6f0;
-            margin-top: 100px;
+            background: linear-gradient(to bottom right, #ff99cc, #ffe6f0);
         }
 
         h1 {
+            margin-top: 120px;
             font-size: 3em;
-            color: #ff4d88;
+            color: white;
         }
 
         button {
@@ -20,43 +22,88 @@
             padding: 15px 30px;
             margin: 20px;
             border: none;
-            border-radius: 10px;
+            border-radius: 15px;
             cursor: pointer;
+            transition: 0.3s;
         }
 
         #yesBtn {
-            background-color: #ff66b2;
+            background-color: #ff4d88;
             color: white;
+            box-shadow: 0 0 20px pink;
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.2);
         }
 
         #noBtn {
-            background-color: #999;
+            background-color: grey;
             color: white;
             position: absolute;
+        }
+
+        .heart {
+            position: absolute;
+            color: red;
+            animation: float 6s linear infinite;
+            font-size: 24px;
+        }
+
+        @keyframes float {
+            from { transform: translateY(100vh); }
+            to { transform: translateY(-10vh); }
         }
     </style>
 </head>
 <body>
 
-    <h1>Grace Ting, will you be my Valentine? 💖</h1>
+<h1>Grace Ting, will you be my Valentine? 💖</h1>
 
-    <button id="yesBtn" onclick="goToNextPage()">YES 💘</button>
-    <button id="noBtn">NO 🙅‍♂️</button>
+<button id="yesBtn" onclick="celebrate()">YES 💘</button>
+<button id="noBtn">NO 🙅‍♂️</button>
 
-    <script>
-        const noBtn = document.getElementById("noBtn");
+<audio autoplay loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
 
-        noBtn.addEventListener("mouseover", function() {
-            const x = Math.random() * window.innerWidth;
-            const y = Math.random() * window.innerHeight;
-            noBtn.style.left = x + "px";
-            noBtn.style.top = y + "px";
-        });
+<script>
+    const noBtn = document.getElementById("noBtn");
+    let size = 2;
 
-        function goToNextPage() {
-            window.location.href = "celebrate.html";
+    noBtn.addEventListener("mouseover", function() {
+        const x = Math.random() * (window.innerWidth - 100);
+        const y = Math.random() * (window.innerHeight - 100);
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+
+        size -= 0.2;
+        if (size > 0.5) {
+            noBtn.style.fontSize = size + "em";
         }
-    </script>
+    });
+
+    function celebrate() {
+        window.location.href = "celebrate.html";
+    }
+
+    // Floating hearts
+    function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = Math.random() * 20 + 20 + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 6000);
+    }
+
+    setInterval(createHeart, 300);
+</script>
 
 </body>
 </html>
+
